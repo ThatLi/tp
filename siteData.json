@@ -7,11 +7,11 @@
       "headings": {
         "about-us": "About Us",
         "project-team": "Project team",
-        "john-doe": "John Doe",
-        "jane-doe": "Jane Doe",
-        "johnny-doe": "Johnny Doe",
-        "jean-doe": "Jean Doe",
-        "james-doe": "James Doe"
+        "nay-min-thar": "Nay Min Thar",
+        "hein-lin-htet": "Hein Lin Htet",
+        "alpha": "Alpha",
+        "that-li": "That Li",
+        "jimmy-li": "Jimmy Li"
       },
       "headingKeywords": {}
     },
@@ -40,7 +40,7 @@
       "src": "DeveloperGuide.md",
       "title": "Developer Guide",
       "headings": {
-        "ab-3-developer-guide": "AB-3 Developer Guide",
+        "tuteedex-developer-guide": "TuteeDex Developer Guide",
         "acknowledgements": "Acknowledgements",
         "setting-up-getting-started": "Setting up, getting started",
         "design": "Design",
@@ -51,6 +51,7 @@
         "storage-component": "Storage component",
         "common-classes": "Common classes",
         "implementation": "Implementation",
+        "shared-tag-data": "Shared tag data",
         "proposed-undo-redo-feature": "[Proposed] Undo/redo feature",
         "proposed-data-archiving": "[Proposed] Data archiving",
         "documentation-logging-testing-dev-ops": "Documentation, logging, testing, dev-ops",
@@ -63,6 +64,11 @@
         "appendix-instructions-for-manual-testing": "Appendix: Instructions for manual testing",
         "launch-and-shutdown": "Launch and shutdown",
         "deleting-a-person": "Deleting a person",
+        "listing-students-by-tags": "Listing students by tags",
+        "editing-a-student-profile": "Editing a student profile",
+        "editing-student-tags": "Editing student tags",
+        "editing-student-subjects": "Editing student subjects",
+        "editing-student-notes": "Editing student notes",
         "saving-data": "Saving data"
       },
       "headingKeywords": {}
@@ -107,15 +113,16 @@
       "src": "UserGuide.md",
       "title": "User Guide",
       "headings": {
-        "ab-3-user-guide": "AB-3 User Guide",
+        "tuteedex-user-guide": "TuteeDex User Guide",
         "quick-start": "Quick start",
         "features": "Features",
         "viewing-help-help": "Viewing help: help",
         "adding-a-person-add": "Adding a person: add",
-        "listing-all-persons-list": "Listing all persons: list",
-        "editing-a-person-edit": "Editing a person: edit",
+        "viewing-a-student-profile-view": "Viewing a student profile: view",
+        "listing-students-by-tags-list": "Listing students by tags: list",
+        "editing-a-student-profile-edit": "Editing a student profile: edit",
         "locating-persons-by-name-find": "Locating persons by name: find",
-        "deleting-a-person-delete": "Deleting a person: delete",
+        "deleting-a-contact-delete": "Deleting a contact: delete",
         "clearing-all-entries-clear": "Clearing all entries: clear",
         "exiting-the-program-exit": "Exiting the program: exit",
         "saving-the-data": "Saving the data",
@@ -131,7 +138,9 @@
       "src": "index.md",
       "title": "",
       "headings": {
-        "addressbook-level-3": "AddressBook Level-3"
+        "tuteedex": "TuteeDex",
+        "features": "Features",
+        "documentation": "Documentation"
       },
       "headingKeywords": {}
     },
@@ -139,7 +148,7 @@
       "src": "team/johndoe.md",
       "title": "John Doe's Project Portfolio Page",
       "headings": {
-        "project-addressbook-level-3": "Project: AddressBook Level 3"
+        "project-tuteedex": "Project: TuteeDex"
       },
       "headingKeywords": {}
     }
