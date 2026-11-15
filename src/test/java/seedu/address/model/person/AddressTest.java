@@ -15,8 +15,10 @@ public class AddressTest {
 
     @Test
     public void constructor_invalidAddress_throwsIllegalArgumentException() {
-        String invalidAddress = "";
-        assertThrows(IllegalArgumentException.class, () -> new Address(invalidAddress));
+        for (String invalidAddress : new String[] {"", " ", "\u2003", "\u00a0", "\u202f", " \u2003\u00a0 "}) {
+            assertThrows(IllegalArgumentException.class, () -> new Address(invalidAddress));
+            assertFalse(Address.isValidAddress(invalidAddress));
+        }
     }
 
     @Test
@@ -30,6 +32,7 @@ public class AddressTest {
 
         // valid addresses
         assertTrue(Address.isValidAddress("Blk 456, Den Road, #01-355"));
+        assertTrue(Address.isValidAddress("Blk\u00a0456, Den\u2003Road"));
         assertTrue(Address.isValidAddress("-")); // one character
         assertTrue(Address.isValidAddress("Leng Inc; 1234 Market St; San Francisco CA 2349879; USA")); // long address
     }

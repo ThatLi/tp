@@ -222,7 +222,9 @@ public class ParserUtilTest {
 
     @Test
     public void parseAddress_invalidValue_throwsParseException() {
-        assertThrows(ParseException.class, () -> ParserUtil.parseAddress(INVALID_ADDRESS));
+        for (String address : new String[] {INVALID_ADDRESS, "\u2003", "\u00a0", " \u2003\u00a0 "}) {
+            assertThrows(ParseException.class, Address.MESSAGE_CONSTRAINTS, () -> ParserUtil.parseAddress(address));
+        }
     }
 
     @Test
