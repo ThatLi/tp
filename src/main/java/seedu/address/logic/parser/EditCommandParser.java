@@ -42,12 +42,16 @@ public class EditCommandParser implements Parser<EditCommand> {
         ParserUtil.verifyKnownPrefixes(args, MESSAGE_INVALID_FORMAT, prefixes);
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, prefixes);
 
+        String[] preamble = argMultimap.getPreamble().split("\\s+", 2);
         Index index;
 
         try {
-            index = ParserUtil.parseIndex(argMultimap.getPreamble());
+            index = ParserUtil.parseIndex(preamble[0]);
         } catch (ParseException pe) {
             throw new ParseException(MESSAGE_INVALID_INDEX, pe);
+        }
+        if (preamble.length > 1) {
+            throw new ParseException(MESSAGE_INVALID_FORMAT);
         }
 
         try {
