@@ -42,9 +42,6 @@
     -fx-background-color: black, #a5a5b6, #383850;
     -fx-background-insets: 0, 1.5, 4.5;
     -fx-padding: 4.5 13.5;
-    -fx-min-height: 47.9;
-    -fx-pref-height: 47.9;
-    -fx-max-height: 47.9;
     -fx-font-size: 37.31px;
     -fx-text-fill: white;
 }

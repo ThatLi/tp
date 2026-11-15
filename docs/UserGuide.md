@@ -109,8 +109,8 @@ past the newest command gives back whatever you were typing. The history is kept
 
 ### Viewing help: `help`
 
-Opens a help window listing the command formats. Scroll to see every format,
-and hover over a row to read its full text in a tooltip.
+Opens a help window listing the command formats. Long formats wrap across lines
+so the full command remains visible. Scroll to see every format.
 Select the blue `here` link to open the full user guide in your default browser.
 Close the help window with its pixel close button or press Escape.
 You can also open help through **F1**.

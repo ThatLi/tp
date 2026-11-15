@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -46,6 +47,8 @@ public class HelpWindow extends UiPart<Stage> {
         for (String format : readCommandFormats()) {
             Label row = new Label(format);
             row.getStyleClass().add("command-format");
+            row.setWrapText(true);
+            row.setMinHeight(Region.USE_PREF_SIZE);
             row.setMinWidth(0);
             row.setMaxWidth(Double.MAX_VALUE);
             Tooltip tooltip = new Tooltip(format);
