@@ -158,8 +158,11 @@ public class MainWindow extends UiPart<Stage> {
     /** Shows the sort order and the list or find view that were on screen when the app was last closed. */
     private void restoreLastView() {
         // Sort first, so the list or find view that follows is shown in the saved order.
-        restoreCommand(logic.getLastSortCommand());
+        CommandResult sortResult = restoreCommand(logic.getLastSortCommand());
         String lastViewCommand = logic.getLastViewCommand();
+        if (sortResult != null && lastViewCommand.isEmpty()) {
+            showListSummary();
+        }
         CommandResult viewResult = restoreCommand(lastViewCommand);
         // A restored list shows the student counts instead, so only a restored find explains why it is filtered.
         if (viewResult != null && !isListCommand(lastViewCommand)) {

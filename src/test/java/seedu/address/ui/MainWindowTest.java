@@ -566,6 +566,25 @@ public class MainWindowTest extends FxTestSupport {
     }
 
     @Test
+    public void startup_savedSortWithoutView_showsSortedStudentsAndSummary() throws Exception {
+        runOnFxThread(() -> {
+            reopenWithSavedView("sort o/desc", "");
+            assertEquals(List.of(BENSON.getName(), ALICE.getName()),
+                    logic.getFilteredPersonList().stream().map(Person::getName).toList());
+            assertSummary("2", "1");
+        });
+    }
+
+    @Test
+    public void startup_invalidSavedSortWithoutView_keepsErrorVisible() throws Exception {
+        runOnFxThread(() -> {
+            reopenWithSavedView("sort o/invalid", "");
+            assertFalse(root.lookup("#summary").isVisible());
+            assertTrue(feedbackText().contains("Sorting direction must be asc or desc."));
+        });
+    }
+
+    @Test
     public void startup_savedFindView_showsMatchingStudents() throws Exception {
         runOnFxThread(() -> {
             reopenWithSavedView("", "find Alice");
