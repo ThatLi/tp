@@ -94,9 +94,9 @@ public final class CsvReader {
     }
 
     /**
-     * Returns true if the row came from a blank line.
+     * Returns true if every field is blank, including empty spreadsheet rows.
      */
     public static boolean isBlankRow(List<String> row) {
-        return row.size() == 1 && row.get(0).isBlank();
+        return row.stream().allMatch(String::isBlank);
     }
 }

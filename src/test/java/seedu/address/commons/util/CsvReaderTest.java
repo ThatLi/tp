@@ -37,7 +37,9 @@ public class CsvReaderTest {
         assertEquals(3, rows.size());
         assertTrue(CsvReader.isBlankRow(rows.get(1)));
         assertFalse(CsvReader.isBlankRow(rows.get(0)));
-        assertFalse(CsvReader.isBlankRow(List.of("", "")));
+        assertTrue(CsvReader.isBlankRow(List.of("", "")));
+        assertTrue(CsvReader.isBlankRow(List.of("", " ", "\t")));
+        assertFalse(CsvReader.isBlankRow(List.of("", "Amy", "")));
     }
 
     @Test

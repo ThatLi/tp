@@ -253,6 +253,32 @@ public class ImportCommandTest {
     }
 
     @Test
+    public void execute_emptySpreadsheetRows_skipsRowsInPreviewAndConfirmation() throws Exception {
+        String text = CsvExporter.format(List.of(AMY, BOB)).replace("\n",
+                "\n,,,,,,,,\n\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"\n");
+        Path file = writeFile("empty-rows.csv", text);
+        String preview = String.format(ImportCommand.MESSAGE_PREVIEW, 2, file, "Amy Bee, Bob Choo")
+                + "\n" + String.format(ImportCommand.MESSAGE_CONFIRM_HINT, file);
+        assertCommandSuccess(new ImportCommand(file, false, temporaryFolder), model, preview, copyOf(model));
+
+        Model expected = copyOf(model);
+        expected.addPerson(AMY);
+        expected.addPerson(BOB);
+        expected.updateFilteredPersonList(Model.PREDICATE_SHOW_ACTIVE_PERSONS);
+        assertCommandSuccess(new ImportCommand(file, true, temporaryFolder), model,
+                String.format(ImportCommand.MESSAGE_SUCCESS, 2, file), expected);
+    }
+
+    @Test
+    public void execute_invalidRowAfterEmptySpreadsheetRow_keepsRowNumberAndImportsNothing() throws Exception {
+        Path file = writeFile("invalid-after-empty.csv", CsvExporter.format(List.of(AMY)) + ",,,,,,,,\n,Amy\n");
+        String expected = String.format(ImportCommand.MESSAGE_ERRORS, file) + "\n"
+                + String.format(ImportCommand.MESSAGE_ROW_ERROR, 4,
+                        String.format(CsvPersonParser.MESSAGE_WRONG_COLUMN_COUNT, 2));
+        assertCommandFailure(new ImportCommand(file, true, temporaryFolder), model, expected);
+    }
+
+    @Test
     public void execute_excelStyleFile_imported() throws Exception {
         // Excel adds a byte order mark and CRLF line endings; header case should not matter either.
         String text = "\uFEFF" + CsvExporter.format(List.of(AMY)).replace("\n", "\r\n")
