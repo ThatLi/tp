@@ -19,7 +19,7 @@ public class ListCommandParser implements Parser<ListCommand> {
                 + "list [s/SUBJECT]... [t/TAG]..., list -archived, or list -subjects. "
                 + "Use -archived and -subjects on their own.";
     private static final Pattern PREFIX_PATTERN = Pattern.compile("(?:^|\\s)([a-zA-Z][a-zA-Z0-9_-]*/)");
-    private static final Pattern EXCLUSIVE_FLAG_PATTERN = Pattern.compile("(?:^|\\s)-(?:archived|subjects)(?=\\s|$)");
+    private static final Pattern ARCHIVED_FLAG_PATTERN = Pattern.compile("(?:^|\\s)-archived(?=\\s|$)");
     // Recognise a complete option before another option or at the end, not text inside a filter value.
     private static final Pattern SUMMARY_FLAG_PATTERN = Pattern.compile(
             "(?<!\\S)-summary(?=\\s+(?:[a-zA-Z][a-zA-Z0-9_-]*/|-summary(?:\\s|$))|\\s*$)\\s*");
@@ -37,7 +37,7 @@ public class ListCommandParser implements Parser<ListCommand> {
         if (trimmed.equals(ListCommand.SUBJECTS_FLAG)) {
             return ListCommand.forSubjectGroups();
         }
-        if (EXCLUSIVE_FLAG_PATTERN.matcher(trimmed).find()) {
+        if (ARCHIVED_FLAG_PATTERN.matcher(trimmed).find()) {
             throw new ParseException(MESSAGE_INVALID_PARAMETERS);
         }
         Matcher summaryFlag = SUMMARY_FLAG_PATTERN.matcher(trimmed);
