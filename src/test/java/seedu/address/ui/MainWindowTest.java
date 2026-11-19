@@ -432,7 +432,7 @@ public class MainWindowTest extends FxTestSupport {
             assertSame(contactPanel, window.getPersonListPanel());
             assertContactCards(List.of(updated, benson));
             enterCommand("view 1");
-            assertTrue(feedbackText().startsWith("Name: Alice Updated | Phone: 87654321"));
+            assertTrue(feedbackText().startsWith("Name: Alice Updated\nPhone: 87654321"));
             assertTrue(feedbackText().contains("Subjects: Chemistry (Mon 09:00)"));
             assertTrue(feedbackText().endsWith("Notes: Updated note"));
         });
@@ -456,7 +456,7 @@ public class MainWindowTest extends FxTestSupport {
             assertSame(contactPanel, window.getPersonListPanel());
             assertContactCards(List.of(alice, cara));
             enterCommand("view 2");
-            assertTrue(feedbackText().startsWith("Name: Cara Student | Phone:"));
+            assertTrue(feedbackText().startsWith("Name: Cara Student\nPhone:"));
             enterCommand("delete 2");
             enterCommand("delete confirm");
             assertContactCards(List.of(alice));
@@ -566,13 +566,32 @@ public class MainWindowTest extends FxTestSupport {
     }
 
     @Test
+    public void startup_savedSortWithoutView_showsSortedStudentsAndSummary() throws Exception {
+        runOnFxThread(() -> {
+            reopenWithSavedView("sort o/desc", "");
+            assertEquals(List.of(BENSON.getName(), ALICE.getName()),
+                    logic.getFilteredPersonList().stream().map(Person::getName).toList());
+            assertSummary("2", "1");
+        });
+    }
+
+    @Test
+    public void startup_invalidSavedSortWithoutView_keepsErrorVisible() throws Exception {
+        runOnFxThread(() -> {
+            reopenWithSavedView("sort o/invalid", "");
+            assertFalse(root.lookup("#summary").isVisible());
+            assertTrue(feedbackText().contains("Sorting direction must be asc or desc."));
+        });
+    }
+
+    @Test
     public void startup_savedFindView_showsMatchingStudents() throws Exception {
         runOnFxThread(() -> {
             reopenWithSavedView("", "find Alice");
             assertEquals(List.of(ALICE.getName()),
                     logic.getFilteredPersonList().stream().map(Person::getName).toList());
             assertTrue(root.lookup(".subject-group-panel") == null);
-            assertEquals(MainWindow.MESSAGE_LAST_VIEW_RESTORED + " | " + FindCommand.MESSAGE_SINGULAR,
+            assertEquals(MainWindow.MESSAGE_LAST_VIEW_RESTORED + "\n" + FindCommand.MESSAGE_SINGULAR,
                     feedbackText());
         });
     }
@@ -582,7 +601,7 @@ public class MainWindowTest extends FxTestSupport {
         runOnFxThread(() -> {
             reopenWithSavedView("", "find Zed");
             assertTrue(logic.getFilteredPersonList().isEmpty());
-            assertEquals(MainWindow.MESSAGE_LAST_VIEW_RESTORED + " | " + FindCommand.MESSAGE_NO_MATCHES,
+            assertEquals(MainWindow.MESSAGE_LAST_VIEW_RESTORED + "\n" + FindCommand.MESSAGE_NO_MATCHES,
                     feedbackText());
         });
     }
@@ -623,7 +642,7 @@ public class MainWindowTest extends FxTestSupport {
             enterCommand("view 1");
             assertTrue(feedback().isVisible());
             assertFalse(root.lookup("#summary").isVisible());
-            assertTrue(feedbackText().startsWith("Name: Alice Pauline | Phone:"));
+            assertTrue(feedbackText().startsWith("Name: Alice Pauline\nPhone:"));
             assertNull(feedback().getTooltip());
             assertEquals(ScrollPane.ScrollBarPolicy.AS_NEEDED, feedback().getVbarPolicy());
             assertEquals("", input.getText());
@@ -638,7 +657,7 @@ public class MainWindowTest extends FxTestSupport {
                     .withNotes("Revise fractions & 中文!").build();
             logic.model.setPerson(original, edited);
             enterCommand("view 1");
-            assertTrue(feedbackText().contains("Tags: a-level, needs revision | Notes: Revise fractions & 中文!"));
+            assertTrue(feedbackText().contains("Tags: a-level, needs revision\nNotes: Revise fractions & 中文!"));
             assertNull(feedback().getTooltip());
         });
     }

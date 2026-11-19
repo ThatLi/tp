@@ -134,10 +134,24 @@ public class ListCommandParserTest {
         assertParseFailure(parser, "s/Maths -summary x/value", ListCommandParser.MESSAGE_INVALID_PARAMETERS);
         assertParseSuccess(parser, "s/Maths -summary t/A-Level", new ListCommand(
                 new PersonHasAnyTagPredicate(Set.of(new Tag("a-level"))), Set.of("Maths"), true));
-        for (String args : new String[] {"-summary -subjects", "t/A-Level -summary -subjects",
-            "-subjects -summary", "s/Maths -subjects -summary", "t/A-Level -archived -summary"}) {
+        for (String args : new String[] {"-summary -subjects",
+            "-subjects -summary", "t/A-Level -archived -summary"}) {
             assertParseFailure(parser, args, ListCommandParser.MESSAGE_INVALID_PARAMETERS);
         }
+    }
+
+    @Test
+    public void parse_subjectsFlagInsideFilter_keepsAcceptedValue() {
+        for (String value : new String[] {"All -subjects", "-subjects", "All -subjects revision"}) {
+            assertParseSuccess(parser, "s/" + value, new ListCommand(Set.of(value)));
+            assertParseSuccess(parser, "t/" + value,
+                    new ListCommand(new PersonHasAnyTagPredicate(Set.of(new Tag(value)))));
+            assertParseSuccess(parser, "s/" + value + " -summary", new ListCommand(Set.of(value), true));
+        }
+        assertParseSuccess(parser, "t/A-Level -summary -subjects",
+                new ListCommand(new PersonHasAnyTagPredicate(Set.of(new Tag("A-Level -summary -subjects")))));
+        assertParseSuccess(parser, "s/All -subjects t/core -subjects", new ListCommand(
+                new PersonHasAnyTagPredicate(Set.of(new Tag("core -subjects"))), Set.of("All -subjects"), false));
     }
 
     @Test

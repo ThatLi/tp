@@ -15,6 +15,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import seedu.address.logic.Messages;
+import seedu.address.logic.commands.AddCommand;
 
 public class ResultDisplayTest extends FxTestSupport {
     private ResultDisplay display;
@@ -72,12 +74,41 @@ public class ResultDisplayTest extends FxTestSupport {
     }
 
     @Test
+    public void feedback_invalidCommand_keepsUsageAndExampleOnSeparateLines() throws Exception {
+        runOnFxThread(() -> {
+            String message = String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE);
+            display.setFeedbackToUser(message);
+            for (double width : new double[] {600, 726, 1920}) {
+                layout(width);
+                assertTrue(expanded.isVisible());
+                assertFalse(normal.isVisible());
+                Label wrapped = (Label) expanded.getContent();
+                assertEquals(message, wrapped.getText());
+                assertTrue(wrapped.getText().contains("\nadd:"));
+                assertTrue(wrapped.getText().contains("\nExample:"));
+                assertTrue(wrapped.getWidth() <= expanded.getViewportBounds().getWidth());
+            }
+        });
+    }
+
+    @Test
+    public void feedback_shortMultiline_usesExpandedDisplayEvenWhenWide() throws Exception {
+        runOnFxThread(() -> {
+            display.setFeedbackToUser("First\r\nSecond\rThird");
+            layout(1920);
+            assertTrue(expanded.isVisible());
+            assertFalse(normal.isVisible());
+            assertEquals("First\nSecond\nThird", ((Label) expanded.getContent()).getText());
+        });
+    }
+
+    @Test
     public void feedback_beyondTwoLines_scrollsVerticallyAndResetsForNextResult() throws Exception {
         runOnFxThread(() -> {
             String message = "Student details 中文 😀\n".repeat(100);
             display.setFeedbackToUser(message);
             layout(726);
-            assertEquals(message.replaceAll("\\R", " | "), ((Label) expanded.getContent()).getText());
+            assertEquals(message, ((Label) expanded.getContent()).getText());
             assertNull(expanded.getTooltip());
             assertTrue(expanded.getContent().getBoundsInLocal().getHeight()
                     > expanded.getViewportBounds().getHeight());

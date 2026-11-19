@@ -121,10 +121,12 @@ public class PersonCardTest extends FxTestSupport {
         ScrollPane feedback = (ScrollPane) display.getRoot().lookup("#resultDisplay");
         assertFalse(feedback.isVisible());
         display.setFeedbackToUser("Name: Alice\nPhone: 94351253");
+        assertFalse(feedback.isVisible());
+        feedback = (ScrollPane) display.getRoot().lookup("#expandedResultDisplay");
         assertTrue(feedback.isVisible());
-        assertEquals(ScrollPane.ScrollBarPolicy.NEVER, feedback.getVbarPolicy());
+        assertEquals(ScrollPane.ScrollBarPolicy.AS_NEEDED, feedback.getVbarPolicy());
         Label feedbackLabel = (Label) feedback.getContent();
-        assertEquals("Name: Alice | Phone: 94351253", feedbackLabel.getText());
+        assertEquals("Name: Alice\nPhone: 94351253", feedbackLabel.getText());
         display.showSummary(0, 0);
         assertFalse(feedback.isVisible());
         assertEquals("0", ((Label) display.getRoot().lookup("#totalCount")).getText());

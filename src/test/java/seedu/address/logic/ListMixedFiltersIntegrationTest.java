@@ -110,6 +110,20 @@ public class ListMixedFiltersIntegrationTest {
     }
 
     @Test
+    public void execute_subjectsFlagInStoredValues_filtersAcceptedStudent() throws Exception {
+        logic.execute("add n/Hana Tan p/91234567 a/Blk 2 d/10-Aug"
+                + " s/All -subjects day/TUE time/10:00 t/core -subjects");
+        Person added = model.getAddressBook().getPersonList().getLast();
+        String json = Files.readString(storage.getAddressBookFilePath());
+        for (String command : List.of("list s/All -subjects", "list t/core -subjects",
+                "list s/All -subjects t/core -subjects")) {
+            assertEquals(ListCommand.MESSAGE_SINGULAR, logic.execute(command).getFeedbackToUser());
+            assertEquals(List.of(added), model.getFilteredPersonList());
+            assertEquals(json, Files.readString(storage.getAddressBookFilePath()));
+        }
+    }
+
+    @Test
     public void execute_invalidMixedFilters_preservesCurrentViewSortAndSavedProfiles() throws Exception {
         logic.execute("sort n/desc");
         logic.execute("find Amy");
@@ -119,7 +133,7 @@ public class ListMixedFiltersIntegrationTest {
         for (String command : List.of("list s/ t/a-level", "list s/Maths t/", "list s/Maths t/bad_tag",
                 "list t/a-level s/---", "list t/a-level S/Maths", "list s/Maths t/a-level x/value",
                 "list extra s/Maths t/a-level", "list -archived s/Maths t/a-level",
-                "list s/Maths t/a-level -subjects", "list -summary -summary s/Maths t/a-level")) {
+                "list -subjects s/Maths t/a-level", "list -summary -summary s/Maths t/a-level")) {
             assertThrows(ParseException.class, () -> logic.execute(command));
             assertEquals(displayed, model.getFilteredPersonList());
             assertEquals(order, model.getSortOrder());

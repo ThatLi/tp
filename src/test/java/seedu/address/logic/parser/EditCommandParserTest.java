@@ -163,7 +163,11 @@ public class EditCommandParserTest {
     public void parse_invalidPreamble_failure() {
         assertParseFailure(parser, "-5" + NAME_DESC_AMY, EditCommandParser.MESSAGE_INVALID_INDEX);
         assertParseFailure(parser, "0" + NAME_DESC_AMY, EditCommandParser.MESSAGE_INVALID_INDEX);
-        assertParseFailure(parser, "1 some random string", EditCommandParser.MESSAGE_INVALID_INDEX);
+        assertParseFailure(parser, "1 some random string", EditCommandParser.MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "1 harry", EditCommandParser.MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "1 harry" + PHONE_DESC_AMY, EditCommandParser.MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "1 2" + PHONE_DESC_AMY, EditCommandParser.MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "0 harry", EditCommandParser.MESSAGE_INVALID_INDEX);
     }
 
     @Test
@@ -241,7 +245,7 @@ public class EditCommandParserTest {
 
     @Test
     public void parse_invalidIndexes_failure() {
-        String[] invalidIndexes = {"", " ", "-1", "0", "1.5", "abc", "1 2", "+1", "2147483648"};
+        String[] invalidIndexes = {"", " ", "-1", "0", "1.5", "abc", "+1", "2147483648"};
         for (String invalidIndex : invalidIndexes) {
             assertParseFailure(parser, invalidIndex + PHONE_DESC_AMY, EditCommandParser.MESSAGE_INVALID_INDEX);
         }

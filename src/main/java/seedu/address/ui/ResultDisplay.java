@@ -46,7 +46,7 @@ public class ResultDisplay extends UiPart<Region> {
         requireNonNull(feedbackToUser);
         summary.setVisible(false);
         summary.setManaged(false);
-        feedbackText.setText(feedbackToUser.replaceAll("\\R", " | "));
+        feedbackText.setText(feedbackToUser.replaceAll("\\R", "\n"));
         wrappedFeedbackText.setText(feedbackText.getText());
         expandedResultDisplay.setVvalue(0);
         updateDisplay();
@@ -59,7 +59,8 @@ public class ResultDisplay extends UiPart<Region> {
         }
         Insets margin = StackPane.getMargin(resultDisplay);
         double availableWidth = getRoot().getWidth() - margin.getLeft() - margin.getRight();
-        boolean expanded = availableWidth > 0 && feedbackText.prefWidth(-1) > availableWidth;
+        boolean expanded = feedbackText.getText().contains("\n")
+                || availableWidth > 0 && feedbackText.prefWidth(-1) > availableWidth;
         resultDisplay.setVisible(!expanded);
         resultDisplay.setManaged(!expanded);
         expandedResultDisplay.setVisible(expanded);
