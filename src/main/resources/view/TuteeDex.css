@@ -16,7 +16,7 @@
     -fx-max-height: 65;
 }
 /* Figma typography is specified on a 1440px canvas; this GUI uses half-size units. */
-.app-title, .header-date, .header-time, .summary .label, .command-box .text-field, .feedback-text, .wrapped-feedback-text {
+.app-title, .header-date, .header-time, .summary .label, .person-card .label, .command-box .text-field, .feedback-text, .wrapped-feedback-text {
     -fx-font-family: "Pixel Code Regular";
     -fx-font-weight: normal;
     -fx-font-style: normal;
@@ -118,7 +118,7 @@
     -fx-pref-height: 37;
     -fx-max-height: 37;
 }
-.person-card .label { -fx-text-fill: white; -fx-font-size: 29.24px; }
+.person-card .label { -fx-text-fill: white; -fx-font-size: 18px; }
 .person-card .tooltip { -fx-font-size: 33.4px; }
 .student-icon { -fx-background-color: #94ef18; -fx-min-width: 52; -fx-pref-width: 52;
     -fx-max-width: 52; -fx-min-height: 31; -fx-pref-height: 31; -fx-max-height: 31; }
