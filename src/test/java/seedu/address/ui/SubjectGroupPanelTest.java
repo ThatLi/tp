@@ -67,8 +67,14 @@ public class SubjectGroupPanelTest extends FxTestSupport {
             VBox entries = (VBox) section.getChildren().get(1);
             HBox row = (HBox) entries.getChildren().getFirst();
             Label slot = (Label) row.getChildren().get(1);
-            new Scene(groups);
+            Scene scene = new Scene(groups);
+            scene.getStylesheets().add(getClass().getResource("/view/TuteeDex.css").toExternalForm());
             groups.applyCss();
+            Label heading = (Label) section.getChildren().getFirst();
+            assertEquals("Pixel Code Regular", heading.getFont().getFamily());
+            assertEquals(18, heading.getFont().getSize(), 0.001);
+            assertEquals("Pixel Code Regular", slot.getFont().getFamily());
+            assertEquals(16, slot.getFont().getSize(), 0.001);
             assertTrue(slot.prefWidth(-1) > 0);
             for (int width : new int[] {600, 1000}) {
                 row.resize(width, 37);
