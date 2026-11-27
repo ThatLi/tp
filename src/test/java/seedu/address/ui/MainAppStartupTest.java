@@ -71,6 +71,8 @@ public class MainAppStartupTest {
     private void runStartup(String scenario) throws Exception {
         List<String> command = new ArrayList<>();
         command.add(Path.of(System.getProperty("java.home"), "bin", "java").toString());
+        command.add("-Dstdout.encoding=UTF-8");
+        command.add("-Dstderr.encoding=UTF-8");
         // Append child startup coverage to the same report as the parent test worker.
         ManagementFactory.getRuntimeMXBean().getInputArguments().stream()
                 .filter(argument -> argument.startsWith("-javaagent:") && argument.contains("jacoco"))
