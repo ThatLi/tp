@@ -1,7 +1,7 @@
 /* Help frame 83:773, at its 726 x 593 design size. */
 .help-window {
     -fx-background-color: #60a0b0;
-    -fx-font-family: "Pokemon Pixel Font";
+    -fx-font-family: "Pixel Code Regular";
     -fx-focus-color: #4ac2e4;
     -fx-faint-focus-color: transparent;
 }
@@ -13,7 +13,12 @@
     -fx-max-height: 63;
 }
 .help-accent { -fx-font-family: "Press Start 2P"; -fx-font-size: 32.267px; -fx-text-fill: #4ac2e4; }
-.help-title { -fx-font-size: 48.4px; -fx-text-fill: white; }
+.help-title, .guide-message .label, .guide-message .hyperlink {
+    -fx-font-family: "Pixel Code Regular";
+    -fx-font-weight: normal;
+    -fx-font-style: normal;
+}
+.help-title { -fx-font-size: 32px; -fx-text-fill: white; }
 .guide-container {
     -fx-background-color: #4a4a4a;
     -fx-padding: 10 20;
@@ -22,7 +27,7 @@
     -fx-max-height: 62.5;
 }
 .guide-message { -fx-background-color: #d9d9d9; -fx-padding: 0 24; }
-.guide-message .label, .guide-message .hyperlink { -fx-font-size: 39.325px; -fx-text-fill: black; }
+.guide-message .label, .guide-message .hyperlink { -fx-font-size: 18px; -fx-text-fill: black; }
 #guideLink {
     -fx-padding: 0;
     -fx-border-color: transparent;
@@ -42,7 +47,10 @@
     -fx-background-color: black, #a5a5b6, #383850;
     -fx-background-insets: 0, 1.5, 4.5;
     -fx-padding: 4.5 13.5;
-    -fx-font-size: 37.31px;
+    -fx-font-family: "Pixel Code Regular";
+    -fx-font-weight: normal;
+    -fx-font-style: normal;
+    -fx-font-size: 28px;
     -fx-text-fill: white;
 }
 .command-scroll .scroll-bar:vertical { -fx-background-color: #085888; -fx-pref-width: 14.117; -fx-padding: 0; }
@@ -71,3 +79,9 @@
 }
 .help-close:focused { -fx-border-color: #4ac2e4; }
 .help-close:hover { -fx-opacity: 0.8; }
+.tooltip {
+    -fx-font-family: "Pixel Code Regular";
+    -fx-font-weight: normal;
+    -fx-font-style: normal;
+    -fx-font-size: 18px;
+}

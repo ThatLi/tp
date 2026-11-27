@@ -16,7 +16,6 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -41,8 +40,8 @@ public class MainWindow extends UiPart<Stage> {
             "Showing the same view as when you last closed TuteeDex. Type list to see all students.";
 
     private static final String FXML = "MainWindow.fxml";
-    private static final DateTimeFormatter HEADER_DATE = DateTimeFormatter.ofPattern("dd  -  MMM", Locale.ENGLISH);
-    private static final DateTimeFormatter HEADER_TIME = DateTimeFormatter.ofPattern("HH  :  mm", Locale.ENGLISH);
+    private static final DateTimeFormatter HEADER_DATE = DateTimeFormatter.ofPattern("dd-MMM", Locale.ENGLISH);
+    private static final DateTimeFormatter HEADER_TIME = DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH);
     /** Height of the window title bar that must be visible for the saved position to be reused. */
     private static final double TITLE_BAR_HEIGHT = 30;
 
@@ -87,8 +86,8 @@ public class MainWindow extends UiPart<Stage> {
     MainWindow(Stage primaryStage, Logic logic, Path dataFilePath, Consumer<String> openBrowser, Clock clock) {
         super(FXML, primaryStage);
 
-        Font.loadFont(MainWindow.class.getResource("/fonts/pokemon_pixel_font.ttf").toExternalForm(), 24);
-        Font.loadFont(MainWindow.class.getResource("/fonts/PressStart2P-Regular.ttf").toExternalForm(), 24);
+        loadBundledFont("/fonts/PixelCode-Regular.otf");
+        loadBundledFont("/fonts/PressStart2P-Regular.ttf");
 
         // Set dependencies
         this.primaryStage = primaryStage;

@@ -51,7 +51,7 @@ public class ImportCommand extends Command {
     public static final String MESSAGE_DUPLICATE_IN_FILE = "Same student as row %1$d, but with different details.";
     public static final String MESSAGE_CONFLICT = "%1$s is already in TuteeDex with different subjects, tags, "
             + "notes, outstanding amount or archive status. Use edit to change the stored student, or remove this row.";
-    public static final String MESSAGE_MORE_ERRORS = "...and %1$d more.";
+    public static final String MESSAGE_MORE_ERRORS = "…and %1$d more.";
     public static final String MESSAGE_NOTHING_NEW = "No new students to import. All %1$d student(s) in %2$s "
             + "are already in TuteeDex.";
     public static final String MESSAGE_PREVIEW = "Ready to import %1$d student(s) from %2$s: %3$s.";

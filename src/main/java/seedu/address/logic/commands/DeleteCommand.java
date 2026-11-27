@@ -21,7 +21,7 @@ public class DeleteCommand extends Command {
 
     public static final String MESSAGE_USAGE = "Usage: delete INDEX, then delete confirm";
     public static final String MESSAGE_INVALID_COMMAND_FORMAT = "Invalid command format! " + MESSAGE_USAGE;
-    public static final String MESSAGE_INVALID_INDEX = "INDEX must be a positive integer! (e.g., 1, 2, 3, ...)";
+    public static final String MESSAGE_INVALID_INDEX = "INDEX must be a positive integer! (e.g., 1, 2, 3, …)";
     public static final String MESSAGE_CONTACT_NOT_FOUND = "No matching contact found at the specified index.";
 
     public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted student: %1$s";

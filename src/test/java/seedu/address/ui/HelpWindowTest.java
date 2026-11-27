@@ -122,7 +122,16 @@ public class HelpWindowTest extends FxTestSupport {
             assertEquals(39.32, icon.getFitWidth());
             assertEquals(39.32, icon.getFitHeight());
             assertTrue(close.isCancelButton());
+            close.getTooltip().show(close, 0, 0);
+            assertEquals("Pixel Code Regular", close.getTooltip().getFont().getFamily());
+            assertEquals(18, close.getTooltip().getFont().getSize(), 0.001);
+            close.getTooltip().hide();
             ScrollPane scroll = (ScrollPane) window.getRoot().getScene().lookup("#commandScroll");
+            Label format = (Label) ((VBox) scroll.getContent()).getChildren().getFirst();
+            format.getTooltip().show(format, 0, 0);
+            assertEquals("Pixel Code Regular", format.getTooltip().getFont().getFamily());
+            assertEquals(18, format.getTooltip().getFont().getSize(), 0.001);
+            format.getTooltip().hide();
             assertTrue(scroll.getContent().getBoundsInLocal().getHeight() > scroll.getViewportBounds().getHeight());
             close.fire();
             assertFalse(window.isShowing());

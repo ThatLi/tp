@@ -15,7 +15,7 @@
 
 * TuteeDex is based on [AddressBook-Level3](https://github.com/se-edu/addressbook-level3) by the [SE-EDU initiative](https://se-education.org).
 * Libraries used: [JavaFX](https://openjfx.io/), [Jackson](https://github.com/FasterXML/jackson), [JUnit 5](https://github.com/junit-team/junit5).
-* Fonts bundled in `src/main/resources/fonts`: [Press Start 2P](https://fonts.google.com/specimen/Press+Start+2P) by The Press Start 2P Project Authors, under the SIL Open Font License 1.1 (licence included as `PressStart2P-OFL.txt`), and [Pokemon Pixel Font](https://fontstruct.com/fontstructions/show/299827/pokemon_pixel_font) (`pokemon_pixel_font.ttf`) by SpyroSteak, under [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/). The interface theme is inspired by the Pokedex in Pokemon Black 2 and White 2.
+* Fonts bundled in `src/main/resources/fonts`: [Pixel Code](https://github.com/qwerasd205/PixelCode) by Qwerasd, under the SIL Open Font License 1.1 (licence included as `PixelCode-OFL.txt`), and [Press Start 2P](https://fonts.google.com/specimen/Press+Start+2P) by The Press Start 2P Project Authors, under the SIL Open Font License 1.1 (licence included as `PressStart2P-OFL.txt`). The interface theme is inspired by the Pokedex in Pokemon Black 2 and White 2.
 * Notable uses of AI:
   * OpenAI Codex and Anthropic Claude were used for preliminary PR reviews, code quality checks, and checking the UG and DG against the product.
   * Codex and Claude were used to help write and fix parts of the code and tests.
@@ -82,11 +82,11 @@ The **API** of this component is specified in [`Ui.java`](https://github.com/AY2
 
 `MainWindow` assembles the TuteeDex interface:
 
-* The header contains the application title, the local date (`DD  -  MMM`, with an English month abbreviation), and the local 24-hour time (`HH  :  MM`). A JavaFX `Timeline` refreshes the clock every second while the main window is shown and stops when it is hidden. The clock can be supplied in tests.
-* `ResultDisplay` shows either the TOTAL/PAID summary or command feedback, with line breaks replaced by ` | `. Feedback that exceeds the normal display width switches to a wrapping two-line display, with vertical scrolling for additional text. Resizing re-evaluates the available width. Result displays have no tooltip.
+* The header contains the application title, the local date (`DD-MMM`, with an English month abbreviation), and the local 24-hour time (`HH:MM`). Neither display contains spaces around its separator. A JavaFX `Timeline` refreshes the clock every second while the main window is shown and stops when it is hidden. The clock can be supplied in tests.
+* `ResultDisplay` shows either the TOTAL/PAID summary or command feedback, preserving line breaks. Feedback containing a line break or exceeding the normal display width switches to a wrapping two-line display, with vertical scrolling for additional text. Resizing re-evaluates the available width. Both feedback modes use the same font and size. Result displays have no tooltip.
 * `PersonListPanel` displays the filtered `ObservableList<Person>` obtained from `Logic`. Its custom `PersonListViewCell` creates a `PersonCard` for each non-empty cell, so changes to the observable list update the displayed students.
 * `MainWindow` puts one of three panels in the list area, based on the `ListPresentation` of each `CommandResult`. `PersonListPanel` is the normal list. `SubjectGroupPanel` shows `list -subjects`; it uses `SubjectGrouping` to group the displayed students under each subject, and each student keeps one shared index. `LessonListPanel` replaces the normal list when the current sort uses `slot/`, with one row per student showing that student's next lesson. Both are rebuilt from `Logic` after each command that changes the list.
-* `PersonCard` shows a three-digit, zero-padded list index, the student's name, and subjects. After reserving the icon, index, spacing, and insets, width bindings divide the remaining space between the name and subject labels in a 3:2 ratio. JavaFX adds trailing `...` only when the text exceeds the label width; the underlying text remains complete. Tooltips expose the full profile and subjects, and accessible text includes the profile details. Grouped and lesson-sorted rows let the card grow while keeping the separate lesson-time label at the right edge.
+* `PersonCard` shows a three-digit, zero-padded list index, the student's name, and subjects. After reserving the icon, index, spacing, and insets, width bindings divide the remaining space between the name and subject labels in a 3:2 ratio. JavaFX adds trailing `…` only when the text exceeds the label width; the underlying text remains complete. Tooltips expose the full profile and subjects, and accessible text includes the profile details. Grouped and lesson-sorted rows let the card grow while keeping the separate lesson-time label at the right edge.
 * `CommandBox` accepts commands at the bottom of the window. The FIND button calls `prepareFind()`, which turns the current input into a `find` command: blank input becomes `find `, existing text such as `Amy` becomes `find Amy`, and input that already starts with `find ` is kept. It then focuses the input and moves the caret to its end without executing a command.
 * `CommandBox` also keeps a history of the commands entered in this session. Up shows the previous command and Down the next one; going past the newest command restores the text that was being typed. A command is not added again if it repeats the one before it. The history is not saved when the app closes.
 * The exit button and `exit` command close the application window. Help is available through the `help` command and F1, using a `HelpWindow` created with `MainWindow` and reused when requested.
@@ -94,6 +94,30 @@ The **API** of this component is specified in [`Ui.java`](https://github.com/AY2
 `MainWindow`, `CommandBox`, `ResultDisplay`, `PersonListPanel`, `PersonCard`, and `HelpWindow` inherit from the abstract `UiPart<T>` class. `SubjectGroupPanel` and `LessonListPanel` build their JavaFX nodes in code and reuse `PersonCard` for each student. `UiPart` loads an FXML layout, sets the controller, and exposes the root JavaFX object through `getRoot()`. `StatusBarFooter` and its FXML file remain in the source tree, but the current `MainWindow` does not instantiate or display a status bar; it is omitted from the diagram above.
 
 The layouts are defined in `src/main/resources/view`. For example, [`MainWindow.fxml`](https://github.com/AY2627S1-CS2103T-F13-2/tp/tree/master/src/main/resources/view/MainWindow.fxml) defines the main layout and loads `TuteeDex.css`, while `PersonListCard.fxml` defines the layout for `PersonCard`. The main window also loads the bundled pixel fonts. `HelpWindow` has its own FXML layout and stylesheet.
+
+Both windows register `fonts/PixelCode-Regular.otf` from the application's resources
+through `UiPart.loadBundledFont`, which uses `Font.loadFont` when the resource exists.
+JavaFX exposes its family as `Pixel Code Regular`; use that exact family name in CSS.
+If a bundled font is missing or cannot be loaded, JavaFX uses its platform-default
+`System` sans-serif fallback, retaining the specified text size. The application does not
+depend on a particular operating system's font name. JavaFX handles this fallback
+directly; it [does not support CSS font-family lists](https://openjfx.io/javadoc/17/javafx.graphics/javafx/scene/doc-files/cssref.html#limitations).
+Text uses normal weight and upright style. `TuteeDex.css` and `HelpWindow.css` define the
+following sizes in JavaFX pixels:
+
+| Text | Size |
+| --- | --- |
+| Main title, help title, TOTAL/PAID labels and counts | 32px |
+| Header date and time | 24px |
+| Help command format boxes | 28px |
+| Student index, name and subjects; subject group headings | 18px |
+| Normal and wrapped feedback; help guide message and link; all tooltips | 18px |
+| Command input and placeholder; lesson slots; grouped empty-state message | 16px |
+
+These sizes follow the same half-size scale as the 1440px Figma component designs.
+The header arrows keep their Press Start 2P font, and image-only buttons retain their
+image assets. Both windows use Pixel Code as their default font, including popup
+tooltips. The original Pokemon Pixel Font is no longer loaded or bundled.
 
 The student-area background is anchored below the summary/feedback panel. One repeating
 green tile fills the area at a fixed scale; a separate 80-pixel-high region displays
@@ -103,10 +127,11 @@ at fractional display scales. FIND and exit are image-only buttons with transpar
 backgrounds, accessible labels, and tooltips. The application and documentation use
 the TuteeDex icon.
 
-![Current main window with the tiled background, responsive student fields, and image-only buttons](images/Ui.png)
+![Current main window with Pixel Code text, responsive student fields, and image-only buttons](images/Ui.png)
 
-`HelpWindow` renders command formats as single-line JavaFX labels in a scroll pane,
-with full text in tooltips. Gradle bundles `docs/UserGuide.md` as a classpath resource;
+`HelpWindow` renders command formats as wrapping JavaFX labels in a scroll pane,
+with full text in tooltips. Each label grows to fit its wrapped content, and the
+pane scrolls vertically to reach all formats. Gradle bundles `docs/UserGuide.md` as a classpath resource;
 the help window reads the inline-code entries on its `Format:` lines, so the guide
 is the single source for the displayed formats, including sorting. Its browser
 callback comes from the running `MainApp`'s `HostServices`, through `UiManager`
@@ -1188,9 +1213,11 @@ Use a fresh copy of the app in an empty folder so these checks do not affect rea
 
 ### Viewing help
 
-1. Run `help`, or use **F1**. Expect the command-format window.
+1. Run `help`, or use **F1**. Expect the command-format window, with a 32px Pixel Code
+   title, 18px guide message and link, and 28px command formats.
 2. Scroll to the last command and hover over a long format such as `add`.
-   Expect all commands to be reachable and the full format to appear in a tooltip.
+   Expect long formats to wrap without clipping, all commands to be reachable,
+   and the full format to appear in a tooltip.
 3. Select the blue `here` link. Expect the online User Guide in the default browser.
 4. Close help with its pixel button, reopen it, then press Escape.
    Expect only the help window to close each time; the main window stays open.
@@ -1201,20 +1228,28 @@ Use a fresh copy of the app in an empty folder so these checks do not affect rea
 ### Header clock and command results
 
 1. Compare the header date and time with the computer's local clock. Expect a two-digit
-   day, three-letter English month, and 24-hour time, with two spaces around the hyphen and colon.
+   day and three-letter English month joined by a hyphen with no spaces (for example, `28-Nov`).
+   The 24-hour time has no spaces around the colon (for example, `10:42`).
    Leave the app open across a minute boundary; the time should update without a command.
 2. Run `view 1` for an existing student. Expect long feedback to wrap into a two-line
    display; scroll vertically to read the remainder. Hovering must not cover it with a tooltip.
 3. Resize the window. Feedback should switch between one line and the wrapping display
    according to the available width. Run `list` to restore the TOTAL/PAID summary.
 4. Resize the window with a long student name and subject displayed. Expect the name
-   and subject fields to retain a 3:2 width ratio, with trailing `...` only where text
+   and subject fields to retain a 3:2 width ratio, with trailing `…` only where text
    does not fit. Widening the window reveals more text; hover tooltips retain the full text.
 5. Run `list -subjects`. Expect lesson days and times at the right edge of each row.
 6. Maximize and resize the window, including at 125% display scaling. Expect a continuous
    green grid, a stationary dark band below the summary, and no green strip below the bottom bar.
 7. Select the pixel FIND button with `Alex` in the input. Expect `find Alex`, focused
    and ready to edit or submit; the button must not execute the search itself.
+8. Check the main and help windows on a computer without Pixel Code installed.
+   Expect the bundled font to render as shown in the screenshots. In the main window,
+   expect a 32px title and summary, 24px date/time, 18px student text and subject
+   headings, and 16px command input and lesson slots. Short and wrapped feedback
+   should both use 18px text. Hover over student names, subjects, help command formats,
+   and the FIND/close buttons; expect 18px Pixel Code tooltips with the full text.
+   Header arrows should retain their Press Start 2P font.
 
 ### Sorting students
 

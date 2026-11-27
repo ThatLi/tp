@@ -34,6 +34,7 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.control.Labeled;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
@@ -50,6 +51,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 import javafx.stage.Screen;
@@ -159,7 +161,7 @@ public class MainWindowTest extends FxTestSupport {
     }
 
     @Test
-    public void header_localClock_updatesDateAndTimeAcrossMidnight() throws Exception {
+    public void header_compactLocalClock_updatesDateAndTimeAcrossMidnight() throws Exception {
         AtomicReference<Instant> now = new AtomicReference<>(Instant.parse("2026-12-31T15:59:00Z"));
         CountDownLatch nextMinute = new CountDownLatch(1);
         Clock clock = new Clock() {
@@ -185,14 +187,14 @@ public class MainWindowTest extends FxTestSupport {
             root = window.getPrimaryStage().getScene().getRoot();
             Label date = (Label) root.lookup("#headerDate");
             Label time = (Label) root.lookup("#headerTime");
-            assertEquals("31  -  Dec", date.getText());
-            assertEquals("23  :  59", time.getText());
+            assertEquals("31-Dec", date.getText());
+            assertEquals("23:59", time.getText());
             root.applyCss();
             assertEquals(Color.web("#08b57b"), date.getTextFill());
             assertEquals(Color.web("#94ef18"), time.getTextFill());
             assertTrue(root.lookupAll(".menu-bar").isEmpty());
             time.textProperty().addListener((observable, oldValue, newValue) -> {
-                if (newValue.equals("00  :  00")) {
+                if (newValue.equals("00:00")) {
                     nextMinute.countDown();
                 }
             });
@@ -200,8 +202,8 @@ public class MainWindowTest extends FxTestSupport {
         });
         assertTrue(nextMinute.await(10, TimeUnit.SECONDS), "The header should refresh without a command");
         runOnFxThread(() -> {
-            assertEquals("01  -  Jan", ((Label) root.lookup("#headerDate")).getText());
-            assertEquals("00  :  00", ((Label) root.lookup("#headerTime")).getText());
+            assertEquals("01-Jan", ((Label) root.lookup("#headerDate")).getText());
+            assertEquals("00:00", ((Label) root.lookup("#headerTime")).getText());
         });
     }
 
@@ -231,17 +233,38 @@ public class MainWindowTest extends FxTestSupport {
     }
 
     @Test
-    public void contactTooltips_useReadableFontSize() throws Exception {
+    public void tooltips_usePixelCodeOnStudentFieldsAndButtons() throws Exception {
         runOnFxThread(() -> {
             root.applyCss();
             enterCommand("view 1");
-            for (String selector : List.of("#name", "#subjects")) {
-                Label label = (Label) root.lookup(selector);
+            for (String selector : List.of("#name", "#subjects", "#findButton", "#exitButton")) {
+                Labeled label = (Labeled) root.lookup(selector);
                 Tooltip tooltip = label.getTooltip();
                 tooltip.show(label, 0, 0);
-                assertEquals(33.4, tooltip.getFont().getSize(), 0.001);
+                assertEquals("Pixel Code Regular", tooltip.getFont().getFamily());
+                assertEquals(18, tooltip.getFont().getSize(), 0.001);
                 tooltip.hide();
             }
+        });
+    }
+
+    @Test
+    public void unavailableFont_usesSystemSansSerifForLabelsAndTooltips() throws Exception {
+        runOnFxThread(() -> {
+            UiPart.loadBundledFont("/fonts/missing-font.otf");
+            String missingFamily = "-fx-font-family: 'TuteeDex unavailable test font';";
+            Label title = (Label) root.lookup(".app-title");
+            title.setStyle(missingFamily);
+            root.applyCss();
+            assertEquals(Font.getDefault().getFamily(), title.getFont().getFamily());
+            assertEquals(32, title.getFont().getSize(), 0.001);
+
+            Tooltip tooltip = ((Button) root.lookup("#findButton")).getTooltip();
+            tooltip.setStyle(missingFamily);
+            tooltip.show(root.lookup("#findButton"), 0, 0);
+            assertEquals(Font.getDefault().getFamily(), tooltip.getFont().getFamily());
+            assertEquals(18, tooltip.getFont().getSize(), 0.001);
+            tooltip.hide();
         });
     }
 
@@ -317,7 +340,7 @@ public class MainWindowTest extends FxTestSupport {
             root.applyCss();
             root.layout();
             assertEquals("", input.getText(), "The prompt must not become command input");
-            assertEquals("Enter command here...", input.getPromptText());
+            assertEquals("Enter command here…", input.getPromptText());
             Text prompt = input.lookupAll(".text").stream()
                     .filter(Text.class::isInstance)
                     .map(Text.class::cast)

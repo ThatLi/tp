@@ -1,5 +1,7 @@
 package seedu.address.ui;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
@@ -10,6 +12,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 
 import javafx.application.Platform;
+import javafx.scene.text.Font;
 import javafx.stage.Window;
 
 /** Shares one JavaFX toolkit across UI tests and keeps assertions on its application thread. */
@@ -29,6 +32,12 @@ abstract class FxTestSupport {
         if (!ready.await(20, TimeUnit.SECONDS)) {
             throw new AssertionError("JavaFX toolkit did not start");
         }
+        runOnFxThread(() -> {
+            assertNotNull(Font.loadFont(FxTestSupport.class.getResource(
+                    "/fonts/PixelCode-Regular.otf").toExternalForm(), 24));
+            assertNotNull(Font.loadFont(FxTestSupport.class.getResource(
+                    "/fonts/PressStart2P-Regular.ttf").toExternalForm(), 24));
+        });
         toolkitStarted = true;
     }
 
