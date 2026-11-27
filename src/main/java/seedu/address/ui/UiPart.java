@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.URL;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.text.Font;
 import seedu.address.MainApp;
 
 /**
@@ -56,6 +57,14 @@ public abstract class UiPart<T> {
      */
     public T getRoot() {
         return fxmlLoader.getRoot();
+    }
+
+    /** Registers a bundled font when available; otherwise CSS uses the system sans-serif fallback. */
+    protected static void loadBundledFont(String resourcePath) {
+        URL fontUrl = UiPart.class.getResource(resourcePath);
+        if (fontUrl != null) {
+            Font.loadFont(fontUrl.toExternalForm(), 24);
+        }
     }
 
     /**

@@ -14,7 +14,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import seedu.address.commons.core.LogsCenter;
 
@@ -42,9 +41,8 @@ public class HelpWindow extends UiPart<Stage> {
     public HelpWindow(Stage root, Consumer<String> openBrowser) {
         super(FXML, root);
         this.openBrowser = requireNonNull(openBrowser);
-        Font.loadFont(HelpWindow.class.getResource("/fonts/pokemon_pixel_font.ttf").toExternalForm(), 24);
-        Font.loadFont(HelpWindow.class.getResource("/fonts/PixelCode-Regular.otf").toExternalForm(), 24);
-        Font.loadFont(HelpWindow.class.getResource("/fonts/PressStart2P-Regular.ttf").toExternalForm(), 24);
+        loadBundledFont("/fonts/PixelCode-Regular.otf");
+        loadBundledFont("/fonts/PressStart2P-Regular.ttf");
         for (String format : readCommandFormats()) {
             Label row = new Label(format);
             row.getStyleClass().add("command-format");

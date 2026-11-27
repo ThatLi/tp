@@ -50,6 +50,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 import javafx.stage.Screen;
@@ -242,6 +243,26 @@ public class MainWindowTest extends FxTestSupport {
                 assertEquals(33.4, tooltip.getFont().getSize(), 0.001);
                 tooltip.hide();
             }
+        });
+    }
+
+    @Test
+    public void unavailableFont_usesSystemSansSerifForLabelsAndTooltips() throws Exception {
+        runOnFxThread(() -> {
+            UiPart.loadBundledFont("/fonts/missing-font.otf");
+            String missingFamily = "-fx-font-family: 'TuteeDex unavailable test font';";
+            Label title = (Label) root.lookup(".app-title");
+            title.setStyle(missingFamily);
+            root.applyCss();
+            assertEquals(Font.getDefault().getFamily(), title.getFont().getFamily());
+            assertEquals(32, title.getFont().getSize(), 0.001);
+
+            Tooltip tooltip = ((Button) root.lookup("#findButton")).getTooltip();
+            tooltip.setStyle(missingFamily);
+            tooltip.show(root.lookup("#findButton"), 0, 0);
+            assertEquals(Font.getDefault().getFamily(), tooltip.getFont().getFamily());
+            assertEquals(18, tooltip.getFont().getSize(), 0.001);
+            tooltip.hide();
         });
     }
 
