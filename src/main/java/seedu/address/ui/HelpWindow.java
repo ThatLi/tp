@@ -43,6 +43,7 @@ public class HelpWindow extends UiPart<Stage> {
         super(FXML, root);
         this.openBrowser = requireNonNull(openBrowser);
         Font.loadFont(HelpWindow.class.getResource("/fonts/pokemon_pixel_font.ttf").toExternalForm(), 24);
+        Font.loadFont(HelpWindow.class.getResource("/fonts/PixelCode-Regular.otf").toExternalForm(), 24);
         Font.loadFont(HelpWindow.class.getResource("/fonts/PressStart2P-Regular.ttf").toExternalForm(), 24);
         for (String format : readCommandFormats()) {
             Label row = new Label(format);

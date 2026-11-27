@@ -88,6 +88,7 @@ public class MainWindow extends UiPart<Stage> {
         super(FXML, primaryStage);
 
         Font.loadFont(MainWindow.class.getResource("/fonts/pokemon_pixel_font.ttf").toExternalForm(), 24);
+        Font.loadFont(MainWindow.class.getResource("/fonts/PixelCode-Regular.otf").toExternalForm(), 24);
         Font.loadFont(MainWindow.class.getResource("/fonts/PressStart2P-Regular.ttf").toExternalForm(), 24);
 
         // Set dependencies
