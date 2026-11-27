@@ -79,3 +79,9 @@
 }
 .help-close:focused { -fx-border-color: #4ac2e4; }
 .help-close:hover { -fx-opacity: 0.8; }
+.tooltip {
+    -fx-font-family: "Pixel Code Regular";
+    -fx-font-weight: normal;
+    -fx-font-style: normal;
+    -fx-font-size: 18px;
+}

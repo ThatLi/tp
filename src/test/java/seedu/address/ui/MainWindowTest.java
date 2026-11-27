@@ -34,6 +34,7 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.control.Labeled;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
@@ -232,15 +233,16 @@ public class MainWindowTest extends FxTestSupport {
     }
 
     @Test
-    public void contactTooltips_useReadableFontSize() throws Exception {
+    public void tooltips_usePixelCodeOnStudentFieldsAndButtons() throws Exception {
         runOnFxThread(() -> {
             root.applyCss();
             enterCommand("view 1");
-            for (String selector : List.of("#name", "#subjects")) {
-                Label label = (Label) root.lookup(selector);
+            for (String selector : List.of("#name", "#subjects", "#findButton", "#exitButton")) {
+                Labeled label = (Labeled) root.lookup(selector);
                 Tooltip tooltip = label.getTooltip();
                 tooltip.show(label, 0, 0);
-                assertEquals(33.4, tooltip.getFont().getSize(), 0.001);
+                assertEquals("Pixel Code Regular", tooltip.getFont().getFamily());
+                assertEquals(18, tooltip.getFont().getSize(), 0.001);
                 tooltip.hide();
             }
         });
