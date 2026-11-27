@@ -16,7 +16,9 @@
     -fx-max-height: 65;
 }
 /* Figma typography is specified on a 1440px canvas; this GUI uses half-size units. */
-.app-title, .header-date, .header-time, .summary .label, .person-card .label, .command-box .text-field, .feedback-text, .wrapped-feedback-text {
+.app-title, .header-date, .header-time, .summary .label, .person-card .label,
+.command-box .text-field, .feedback-text, .wrapped-feedback-text,
+.subject-group-heading, .subject-lesson-slot, .subject-group-empty, .lesson-slot {
     -fx-font-family: "Pixel Code Regular";
     -fx-font-weight: normal;
     -fx-font-style: normal;
@@ -79,8 +81,7 @@
 .subject-group-heading {
     -fx-background-color: black;
     -fx-text-fill: white;
-    -fx-font-family: "Pokemon Pixel Font";
-    -fx-font-size: 29.24px;
+    -fx-font-size: 18px;
     -fx-padding: 5 16 5 16;
     -fx-max-width: infinity;
 }
@@ -90,21 +91,19 @@
 }
 .subject-lesson-slot {
     -fx-text-fill: white;
-    -fx-font-family: "Pokemon Pixel Font";
-    -fx-font-size: 24.2px;
+    -fx-font-size: 16px;
     -fx-padding: 0 4 0 0;
 }
 .subject-group-empty {
     -fx-text-fill: white;
-    -fx-font-family: "Pokemon Pixel Font";
-    -fx-font-size: 24.2px;
+    -fx-font-size: 16px;
     -fx-padding: 16;
 }
 .list-view { -fx-background-color: transparent; -fx-background-insets: 0; -fx-padding: 0; }
 .list-cell { -fx-background-color: transparent; -fx-padding: 3 10 3 0; }
 .list-cell:empty { -fx-padding: 0; }
 .lesson-row { -fx-background-color: black; -fx-padding: 0 8 0 0; }
-.lesson-slot { -fx-text-fill: white; -fx-font-family: "Pokemon Pixel Font"; -fx-font-size: 24.2px; }
+.lesson-slot { -fx-text-fill: white; -fx-font-size: 16px; }
 .lesson-list-panel .placeholder .label { -fx-text-fill: white; }
 .list-cell:filled:selected .person-card { -fx-border-color: #94ef18; }
 .person-card {
