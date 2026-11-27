@@ -16,7 +16,7 @@
     -fx-max-height: 65;
 }
 /* Figma typography is specified on a 1440px canvas; this GUI uses half-size units. */
-.app-title, .header-date, .header-time {
+.app-title, .header-date, .header-time, .summary .label, .feedback-text, .wrapped-feedback-text {
     -fx-font-family: "Pixel Code Regular";
     -fx-font-weight: normal;
     -fx-font-style: normal;
@@ -32,12 +32,12 @@
 .result-panel { -fx-background-color: #4a4a4a; -fx-min-height: 62; -fx-pref-height: 62; }
 .result-panel:expanded { -fx-min-height: 76; -fx-pref-height: 76; }
 .summary { -fx-background-color: #d9d9d9; -fx-padding: 0 24; }
-.summary .label { -fx-text-fill: black; -fx-font-size: 48.4px; }
+.summary .label { -fx-text-fill: black; -fx-font-size: 32px; }
 .result-display {
     -fx-background-color: #d9d9d9;
     -fx-control-inner-background: #d9d9d9;
     -fx-text-fill: black;
-    -fx-font-size: 39.3px;
+    -fx-font-size: 18px;
     -fx-padding: 0;
     -fx-background-insets: 0;
     -fx-background-radius: 0;
@@ -164,10 +164,10 @@
 .find-button:hover, .exit-button:hover { -fx-opacity: 0.8; }
 
 .result-display > .viewport { -fx-background-color: #d9d9d9; }
-.feedback-text { -fx-font-size: 39.3px; -fx-text-fill: black; -fx-padding: 0 24; }
+.feedback-text { -fx-font-size: 18px; -fx-text-fill: black; -fx-padding: 0 24; }
 /* Allow two full JavaFX font line boxes, including the text's vertical padding. */
 .expanded-result-display { -fx-pref-height: 68; -fx-padding: 4.5 0; }
-.wrapped-feedback-text { -fx-font-size: 29.24px; -fx-text-fill: black; -fx-padding: 0 12; }
+.wrapped-feedback-text { -fx-font-size: 18px; -fx-text-fill: black; -fx-padding: 0 12; }
 .result-display .scroll-bar:vertical { -fx-pref-width: 5; -fx-background-color: #bfbfbf; }
 .result-display .scroll-bar:vertical .track { -fx-background-color: #bfbfbf; -fx-background-insets: 0; }
 .result-display .scroll-bar:vertical .thumb { -fx-background-color: #7f7f7f; }

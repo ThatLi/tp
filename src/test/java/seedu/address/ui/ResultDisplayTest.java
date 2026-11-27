@@ -26,7 +26,7 @@ public class ResultDisplayTest extends FxTestSupport {
     @BeforeEach
     void setUp() throws Exception {
         runOnFxThread(() -> {
-            Font.loadFont(getClass().getResource("/fonts/pokemon_pixel_font.ttf").toExternalForm(), 24);
+            Font.loadFont(getClass().getResource("/fonts/PixelCode-Regular.otf").toExternalForm(), 24);
             display = new ResultDisplay();
             VBox root = new VBox(display.getRoot());
             root.getStyleClass().add("tuteedex");
@@ -59,7 +59,7 @@ public class ResultDisplayTest extends FxTestSupport {
             Label wrapped = (Label) expanded.getContent();
             assertEquals(message, wrapped.getText());
             assertTrue(wrapped.isWrapText());
-            assertEquals(29.24, wrapped.getFont().getSize(), 0.001);
+            assertEquals(18, wrapped.getFont().getSize(), 0.001);
             assertEquals(68, expanded.getHeight(), 1);
             assertEquals(ScrollPane.ScrollBarPolicy.NEVER, expanded.getHbarPolicy());
             assertTrue(wrapped.getWidth() <= expanded.getViewportBounds().getWidth());
@@ -133,7 +133,7 @@ public class ResultDisplayTest extends FxTestSupport {
     @Test
     public void feedback_resize_usesAvailableWidthInsteadOfFixedCharacterCount() throws Exception {
         runOnFxThread(() -> {
-            display.setFeedbackToUser("W".repeat(60));
+            display.setFeedbackToUser("W".repeat(80));
             layout(726);
             assertTrue(expanded.isVisible());
             layout(1400);
