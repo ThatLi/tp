@@ -91,9 +91,11 @@ public class PersonCardTest extends FxTestSupport {
                 assertTrue(name.getWidth() > previousNameWidth);
                 previousNameWidth = name.getWidth();
                 for (Label label : new Label[] {name, subjects}) {
+                    assertEquals("Pixel Code Regular", label.getFont().getFamily());
+                    assertEquals(18, label.getFont().getSize(), 0.001);
                     String displayed = ((Text) label.lookup(".text")).getText();
                     if (width == 600) {
-                        assertTrue(displayed.endsWith("..."), displayed);
+                        assertTrue(displayed.endsWith("…"), displayed);
                     } else {
                         assertEquals(label.getText(), displayed);
                     }

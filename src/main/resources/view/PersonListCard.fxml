@@ -6,7 +6,7 @@
       xmlns:fx="http://javafx.com/fxml/1">
   <Region fx:id="studentIcon" styleClass="student-icon" />
   <Label fx:id="id" minWidth="39" />
-  <Label fx:id="name" minWidth="0" maxWidth="-Infinity" textOverrun="ELLIPSIS" ellipsisString="..." />
-  <Label fx:id="subjects" minWidth="0" maxWidth="-Infinity" textOverrun="ELLIPSIS" ellipsisString="..."
+  <Label fx:id="name" minWidth="0" maxWidth="-Infinity" textOverrun="ELLIPSIS" ellipsisString="…" />
+  <Label fx:id="subjects" minWidth="0" maxWidth="-Infinity" textOverrun="ELLIPSIS" ellipsisString="…"
          alignment="CENTER_RIGHT" />
 </HBox>
