@@ -340,7 +340,7 @@ public class MainWindowTest extends FxTestSupport {
             root.applyCss();
             root.layout();
             assertEquals("", input.getText(), "The prompt must not become command input");
-            assertEquals("Enter command here...", input.getPromptText());
+            assertEquals("Enter command here…", input.getPromptText());
             Text prompt = input.lookupAll(".text").stream()
                     .filter(Text.class::isInstance)
                     .map(Text.class::cast)
