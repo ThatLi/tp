@@ -13,7 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.AddCommand;
@@ -26,7 +25,6 @@ public class ResultDisplayTest extends FxTestSupport {
     @BeforeEach
     void setUp() throws Exception {
         runOnFxThread(() -> {
-            Font.loadFont(getClass().getResource("/fonts/PixelCode-Regular.otf").toExternalForm(), 24);
             display = new ResultDisplay();
             VBox root = new VBox(display.getRoot());
             root.getStyleClass().add("tuteedex");
@@ -59,6 +57,7 @@ public class ResultDisplayTest extends FxTestSupport {
             Label wrapped = (Label) expanded.getContent();
             assertEquals(message, wrapped.getText());
             assertTrue(wrapped.isWrapText());
+            assertEquals("Pixel Code Regular", wrapped.getFont().getFamily());
             assertEquals(18, wrapped.getFont().getSize(), 0.001);
             assertEquals(68, expanded.getHeight(), 1);
             assertEquals(ScrollPane.ScrollBarPolicy.NEVER, expanded.getHbarPolicy());
