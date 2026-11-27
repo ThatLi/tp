@@ -29,7 +29,7 @@ TuteeDex is a **desktop application for private tutors to keep student details, 
    when you start it. Starting it this way makes that the home folder. If you start it from another folder, for example
    with `java -jar C:\Apps\TuteeDex.jar`, it uses that other folder instead.<br>
    A GUI similar to the one below should appear in a few seconds. Note how the app contains some sample data.<br>
-   ![TuteeDex showing six sample students with the updated tiled background and pixel buttons](images/Ui.png)
+   ![TuteeDex showing six sample students in the Pixel Code interface](images/Ui.png)
 
    On a first launch without a data file, six fictional sample students demonstrate weekly
    Maths, English and Science lessons, tags, notes and mixed balances. The result box shows
@@ -57,8 +57,13 @@ TuteeDex is a **desktop application for private tutors to keep student details, 
 
 ## Features
 
-The header shows your computer's local date as `DD  -  MMM` (for example, `03  -  Nov`) and its time as `HH  :  MM`
-in 24-hour format, updating automatically. Command results use one line when they fit;
+The main interface and help window use the bundled Pixel Code font; no separate
+font installation is needed. If that font is unavailable, text uses your system's
+standard sans-serif font.
+
+The header shows your computer's local date as `DD-MMM` (for example, `03-Nov`) and its time as `HH:MM`
+(for example, `10:42`) in 24-hour format, updating automatically. There are no spaces
+around the date's hyphen or the time's colon. Command results use one line when they fit;
 longer results wrap into a two-line display. Scroll vertically to read any remaining
 text.
 
@@ -76,7 +81,7 @@ The bar at the bottom of the window has two buttons:
 * The red pixel **X** button closes TuteeDex, the same as the `exit` command.
 
 The student name and subject fields resize with the window, sharing their available
-width in a 3:2 ratio. Text that does not fit ends with `...`; widen the window to see
+width in a 3:2 ratio. Text that does not fit ends with `…`; widen the window to see
 more text, or hover over a name or subject to read its full tooltip. Subjects and
 lesson times are aligned to the right. The tiled background stays at a fixed scale
 as the window is resized.
@@ -93,6 +98,7 @@ as the window is resized.
 
 * Items followed by `...` can appear zero or more times.<br>
   This notation is used only when a command explicitly supports repeated values.
+  Do not type the `...` marker itself.
 
 * Parameters can be in any order.<br>
   For example, if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
@@ -117,6 +123,8 @@ so the full command remains visible. Scroll to see every format.
 Select the blue `here` link to open the full user guide in your default browser.
 Close the help window with its pixel close button or press Escape.
 You can also open help through **F1**.
+
+![Help window showing wrapped command formats in Pixel Code](images/HelpWindow.png)
 
 Format: `help`
 
@@ -522,7 +530,9 @@ Format: `delete INDEX`, then `delete confirm`
 
 ![Delete preview](images/DeletePreview.png)
 
-_`delete 4` on the sample data previews David Li and asks you to type `delete confirm` next._
+_`delete 4` on the sample data previews David Li; the result box is scrolled to show the confirmation instruction._
+
+Scroll within the result box if needed to read the full preview and confirmation instruction.
 
 * `INDEX` is the position in the currently displayed student list, counting from 1, including search results.
 * `INDEX` must be one positive integer, such as `1`, `2`, or `3`.
@@ -544,7 +554,7 @@ Archives a student without deleting the student profile. Archived students are h
 Format: `archive INDEX`
 
 * Archives the student at the specified `INDEX`. The index refers to the index number shown in the displayed student list, like `view`, `edit` and `delete`.
-* The index **must be a positive integer** 1, 2, 3, …
+* The index **must be a positive integer** 1, 2, 3, ...
 * Students who share a name can each be archived, because the index picks one profile.
 * A successful command displays `Archived <name>.` and refreshes the active student list.
 * If the index is larger than the displayed list, the command displays `No matching contact found at the specified index.`
@@ -561,7 +571,7 @@ Restores an archived student to the active student list. Unarchiving does not ch
 Format: `unarchive INDEX`
 
 * Restores the student at the specified `INDEX` in the displayed list. Use `list -archived` first to see archived students and their indexes.
-* The index **must be a positive integer** 1, 2, 3, …
+* The index **must be a positive integer** 1, 2, 3, ...
 * A successful command displays `Unarchived <name>.`, returns to the active student list and makes the student appear in `list` again.
 * If the index is larger than the displayed list, the command displays `No matching contact found at the specified index.`
 * If the student is already active, the command displays `<name> is already active.`
