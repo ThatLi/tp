@@ -160,7 +160,7 @@ public class MainWindowTest extends FxTestSupport {
     }
 
     @Test
-    public void header_localClock_updatesDateAndTimeAcrossMidnight() throws Exception {
+    public void header_compactLocalClock_updatesDateAndTimeAcrossMidnight() throws Exception {
         AtomicReference<Instant> now = new AtomicReference<>(Instant.parse("2026-12-31T15:59:00Z"));
         CountDownLatch nextMinute = new CountDownLatch(1);
         Clock clock = new Clock() {
@@ -186,14 +186,14 @@ public class MainWindowTest extends FxTestSupport {
             root = window.getPrimaryStage().getScene().getRoot();
             Label date = (Label) root.lookup("#headerDate");
             Label time = (Label) root.lookup("#headerTime");
-            assertEquals("31  -  Dec", date.getText());
-            assertEquals("23  :  59", time.getText());
+            assertEquals("31-Dec", date.getText());
+            assertEquals("23:59", time.getText());
             root.applyCss();
             assertEquals(Color.web("#08b57b"), date.getTextFill());
             assertEquals(Color.web("#94ef18"), time.getTextFill());
             assertTrue(root.lookupAll(".menu-bar").isEmpty());
             time.textProperty().addListener((observable, oldValue, newValue) -> {
-                if (newValue.equals("00  :  00")) {
+                if (newValue.equals("00:00")) {
                     nextMinute.countDown();
                 }
             });
@@ -201,8 +201,8 @@ public class MainWindowTest extends FxTestSupport {
         });
         assertTrue(nextMinute.await(10, TimeUnit.SECONDS), "The header should refresh without a command");
         runOnFxThread(() -> {
-            assertEquals("01  -  Jan", ((Label) root.lookup("#headerDate")).getText());
-            assertEquals("00  :  00", ((Label) root.lookup("#headerTime")).getText());
+            assertEquals("01-Jan", ((Label) root.lookup("#headerDate")).getText());
+            assertEquals("00:00", ((Label) root.lookup("#headerTime")).getText());
         });
     }
 
